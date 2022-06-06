@@ -1,4 +1,6 @@
-﻿namespace StudentManagementSystem.Models
+﻿using System.Collections.Generic;
+
+namespace StudentManagementSystem.Models
 {
     public class StudentCourse
     {

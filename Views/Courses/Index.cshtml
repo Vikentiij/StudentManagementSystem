@@ -1,0 +1,80 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Course>
+
+@{
+    ViewData["Title"] = "Courses";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<h1>Courses</h1>
+
+@if (this.User.IsInRole("Admin"))
+{
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+@if (this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+{
+    <br />
+}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Notes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Teacher)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.FirstName) @Html.DisplayFor(modelItem => item.Teacher.LastName)
+                </td>
+
+                @if (this.User.IsInRole("Admin"))
+                {
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CourseId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.CourseId">Delete</a> |
+                        <a asp-controller="Email" asp-action="EmailCourse" asp-route-id="@item.CourseId">Send Emails</a>
+                    </td>
+                }
+
+                @if (this.User.IsInRole("Student"))
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.CourseId">Details</a>
+                    </td>
+                }
+
+                @if (this.User.IsInRole("Teacher"))
+                {
+            <td>
+                <a asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
+                <a asp-controller="Email" asp-action="EmailCourse" asp-route-id="@item.CourseId">Send Emails</a>
+            </td>
+                }
+
+
+            </tr>
+            }
+        </tbody>
+    </table>
