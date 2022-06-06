@@ -1,46 +1,166 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StudentManagementSystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Student Management System</title>
+
+    <!-- Custom fonts for this template-->
+
+    <link href="~/Theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/Theme/css/sb-admin-2.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">StudentManagementSystem</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <!-- <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">  -->
+        <nav class="navbar navbar-expand navbar-light bg-white  topbar static-top shadow">
+            <div class="container">               
+                    
+                        <a class="navbar-brand-icon">
+                            <img src="/Theme/img/Owl white more.png" width="50" class="d-inline-block align-top" alt="">
+                        </a>                                                         
+
+                <a class="navbar-brand mr-lg-5 ml-2 pt-3 " asp-area="" asp-controller="Home" asp-action="Index">
+                    <p  style=" font-size: medium; font-weight:bold; line-height: normal; color: #2a2d34;">Student<br/>Management<br/>System</p></a>
+
+                
+                <div class="navbar-collapse collapse ml-3 d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                       
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark pr-4" style="font-size: large; font-weight: bold" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                       
+
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" style="font-size: large; font-weight: bold" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
                         </li>
+
+                      
                     </ul>
                 </div>
-                <partial name="_LoginPartial" />
+                <partial name="_LoginPartial.cshtml" />
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid" style="padding:0">
+        <main role="main" >
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+
+
+    <footer class="border-top footer text-muted bg-#2f2f30" style=" position:sticky; background-color: #2f2f30; padding-top:15px; padding-bottom:15px">
         <div class="container">
-            &copy; 2022 - StudentManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row row-cols-3 justify-content-md-center">
+                <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+                    <div style="margin-top:20px">
+                        <div class="sidebar-brand d-flex align-items-center justify-content-center" >
+
+                            <div class="sidebar-brand-icon">
+                                <img src="/Theme/img/Logo3_2.png" width="50" class="d-inline-block align-top" alt="">
+                            </div>
+                            <div class="sidebar-brand-text mx-3 h5" style="color:white">Student Management System</div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6 col-lg-5 mb-4 mb-md-0">
+                    <h5 class="footer-heading" style="color:white">Contact info</h5>
+                    <hr class="sidebar-divider" style="margin-top: 0; background-color: #4e73df; width: 60px; height: 2px; position: absolute " />
+                    <div class="block" style="margin-top:20px">
+                        <ul style="list-style-type: none; padding:0">
+                            <li>
+                                <span class="bi bi-geo-alt-fill"></span>
+                                
+                                <span class="text">
+                                    Level 3, 182 Broadway, Newmarket
+                                    Auckland NZ 1023
+                                </span>
+                            </li>
+                            <li>
+                                <span class="bi bi-envelope-fill"></span>
+                                <span class="text">
+                                    Email: learn@techtorium.ac.nz</span>
+                            </li>
+                            <li>
+                                <span class="bi bi-telephone-fill"></span>
+                                <span class="text">
+                                    Phone: 0800 529 7523</span>
+                            </li>
+
+                            <li><h5 class="footer-heading" style="color:white; margin-top:10px">or</h5></li>
+                            <li >
+                                <a  asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+                    <h5 class="footer-heading" style="color:white">Follow Us</h5>
+                    <hr class="sidebar-divider" style="margin-top: 0; background-color: #4e73df; width: 60px; height: 2px; position: absolute " />
+                    <div class="block" style="margin-top:20px">
+                        <a class="btn btn-link" style="padding-right:6px;" href="https://www.linkedin.com/school/techtorium/">
+                            <span class="bi bi-linkedin" style="font-size: xx-large;"></span>
+                        </a>
+                        <a class="btn btn-link" style="padding-right:6px; padding-left:6px" href="https://www.facebook.com/Techtorium.NZ/">
+                            <span class="bi bi-facebook" style="font-size: xx-large;"></span>
+                        </a>
+                        <a class="btn btn-link" style="padding-left: 6px;" href="https://www.instagram.com/techtorium/?hl=en">
+                            <span class="bi bi-instagram" style="font-size: xx-large"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <hr class="sidebar-divider" style="margin-top: 0; background-color: #4e73df; width:100%; height: 0px; position: sticky " />
+                <div class="col-md-12 text-center">
+                    &copy; 2022 StudentManagementSystem, DGMVZ Team, Techtorium - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                </div>
+            </div>
+
         </div>
     </footer>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="~/Theme/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="~/Theme/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/Theme/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="~/Theme/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="~/Theme/js/demo/chart-area-demo.js"></script>
+    <script src="~//js/demo/chart-pie-demo.js"></script>
+
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
