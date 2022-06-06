@@ -44,19 +44,20 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Index()
         {
-            /*if (this.User.IsInRole("Teacher"))
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var teacherCourseIds = _context.Courses.Where(c => c.Teacher.UserData.Id == userId).Select(c => c.CourseId).ToList();
-                var students = _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student).Distinct();
+            var users = new List<ApplicationUser>();
 
-                return View(await students.ToListAsync());
+            if (User.IsInRole("Teacher"))
+            {
+                var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var teacher = _context.Teachers.FirstOrDefault(t => t.UserData.Id == IFUserId);
+                var teacherCourseIds = _context.Courses.Where(c => c.Teacher.Id == teacher.Id).Select(c => c.CourseId).ToList();
+                users = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
             }
             else
             {
-                return View(await _context.Users.ToListAsync());
-            }*/
-            var users = await _userManager.Users.ToListAsync();
+                users = await _userManager.Users.ToListAsync();
+            }
+
             var userViewModel = new List<UserViewModel>();
             foreach (ApplicationUser user in users)
             {

@@ -39,8 +39,8 @@ namespace StudentManagementSystem.Controllers
             }
             else if (this.User.IsInRole("Student"))
             {
-                var student = _context.Teachers.FirstOrDefault(t => t.UserData.Id == IFUserId);
-                courses = await _context.StudentCourse.Where(s => s.StudentId == student.Id).Include(s => s.Course.Teacher).Select(s => s.Course).ToListAsync();
+                var student = _context.Students.FirstOrDefault(t => t.UserData.Id == IFUserId);
+                courses = await _context.StudentCourse.Where(s => s.StudentId == student.Id).Include(s => s.Course.Teacher.UserData).Select(s => s.Course).ToListAsync();
             }
 
             return View(courses);

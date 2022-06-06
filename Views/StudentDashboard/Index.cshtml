@@ -1,0 +1,64 @@
+﻿@model StudentManagementSystem.ViewModels.StudentDashboardViewModel
+
+@{
+    ViewData["Title"] = "Student Dashboard";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+<div class="container-fluid">
+    <h1>@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Assesments
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p class="card-text">
+                                Your Assesments: @Model.AssesmentCount
+                            </p>
+                            <a class="btn btn-primary" href="~/StudentAssesments/Index" id="Userlink">
+                                <span>View Assesments</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Enrolled Courses
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-user-circle" aria-hidden="true" hight="30" width="30"></i>
+                        </div>
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p class="card-text">
+                                Your Courses: @Model.CourseCount
+                            </p>
+                            <a class="btn btn-primary" href="~/StudentCourses/Index" id="Userlink">
+                                <span>View Courses</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
