@@ -1,0 +1,114 @@
+﻿@model StudentManagementSystem.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "AdminDashboard";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+<div class="container-fluid">
+    <h1>Admin Dashboard</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Users
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-user-circle" aria-hidden="true" hight="30" width="30"></i>
+                        </div>
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p class="card-text">
+                                Students: @Model.StudentsCount
+                                <br />
+                                Teachers: @Model.TeachersCount
+                                <br />
+                                Admins: @Model.AdminsCount
+                            </p>
+                            <a class="btn btn-primary" href="~/Users/Index" id="Userlink">
+                                <span>View Users</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Courses
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p class="card-text">
+                                Courses: @Model.CoursesCount
+                            </p>
+                            <a class="btn btn-primary" href="~/Courses/Index" id="Userlink">
+                                <span>View Courses</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Rooms
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-door-open" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p class="card-text">
+                                Rooms: @Model.RoomsCount
+                            </p>
+                            <a class="btn btn-primary" href="~/Rooms/Index" id="Userlink">
+                                <span>View Rooms</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card-header py-3">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Users</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-pie pt-4">
+                        <canvas id="myPieChart"></canvas>
+                    </div>
+                    @*<hr>
+                    Hello to configer this chart go to this directory. Also let me know if you do cause i wanna lerne more about it :)
+                    <code>/js/demo/chart-pie-demo.js</code> file.*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
