@@ -1,0 +1,37 @@
+﻿@model StudentManagementSystem.Models.StudentAssesment
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>StudentAssesment</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Assesment)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Assesment.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Student)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Student.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Mark)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mark)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

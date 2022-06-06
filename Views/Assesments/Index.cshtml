@@ -1,0 +1,73 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Assesment>
+
+@{
+    ViewData["Title"] = "Assesments";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<h1>Assesments</h1>
+
+@if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@if (this.User.IsInRole("Student"))
+{ 
+    <br />
+}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.Name)
+                    </td>
+
+
+                    @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.AssesmentId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.AssesmentId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.AssesmentId">Delete</a>
+                        </td>
+                    }
+
+                    @if (this.User.IsInRole("Student"))
+                    {
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.AssesmentId">Details</a>
+                        </td>
+
+                    }
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
