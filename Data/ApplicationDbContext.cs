@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Areas.Identity.Data;
+using StudentManagementSystem.Models;
 
 namespace StudentManagementSystem.Data
 {
@@ -31,5 +32,15 @@ namespace StudentManagementSystem.Data
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims", "security");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens", "security");
         }
+
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Room> Room { get; set; }
+        public DbSet<Timetable> Timetable { get; set; }
+        public DbSet<StudentCourse> StudentCourse { get; set; }
+        public DbSet<Assesment> Assesment { get; set; }
+        public DbSet<StudentAssesment> StudentAssesment { get; set; }
+        public DbSet<StudentAttendance> StudentAttendance { get; set; }
     }
 }
