@@ -178,8 +178,8 @@ namespace StudentManagementSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EventTimetableId = table.Column<int>(type: "int", nullable: true),
-                    StudentId = table.Column<int>(type: "int", nullable: true),
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     Attentded = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -190,13 +190,13 @@ namespace StudentManagementSystem.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentAttendance_Timetable_EventTimetableId",
-                        column: x => x.EventTimetableId,
+                        name: "FK_StudentAttendance_Timetable_EventId",
+                        column: x => x.EventId,
                         principalTable: "Timetable",
                         principalColumn: "TimetableId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,9 +205,8 @@ namespace StudentManagementSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    StudentId = table.Column<int>(type: "int", nullable: true)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -223,7 +222,7 @@ namespace StudentManagementSystem.Migrations
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -247,9 +246,9 @@ namespace StudentManagementSystem.Migrations
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentAttendance_EventTimetableId",
+                name: "IX_StudentAttendance_EventId",
                 table: "StudentAttendance",
-                column: "EventTimetableId");
+                column: "EventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentAttendance_StudentId",

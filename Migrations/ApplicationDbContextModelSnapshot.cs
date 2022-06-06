@@ -356,15 +356,15 @@ namespace StudentManagementSystem.Migrations
                     b.Property<bool>("Attentded")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("EventTimetableId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventTimetableId");
+                    b.HasIndex("EventId");
 
                     b.HasIndex("StudentId");
 
@@ -548,11 +548,15 @@ namespace StudentManagementSystem.Migrations
                 {
                     b.HasOne("StudentManagementSystem.Models.Timetable", "Event")
                         .WithMany()
-                        .HasForeignKey("EventTimetableId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StudentManagementSystem.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
 

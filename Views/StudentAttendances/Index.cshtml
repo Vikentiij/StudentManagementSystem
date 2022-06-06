@@ -1,0 +1,53 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.StudentAttendance>
+
+@{
+    ViewData["Title"] = "Attendance";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<h1>Attendance</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@foreach (var day in ViewBag.TimetableDays)
+{
+    <h3>@(day.ToShortDateString())</h3>
+    @foreach (var course in ViewBag.courseList)
+    {
+        <h4>@course.Name</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Student)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Attentded)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(s => s.Event.CourseId == course.CourseId && s.Event.Day == day))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Student.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Attentded)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @*|
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <br />
+}

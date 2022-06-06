@@ -1,0 +1,48 @@
+﻿@model IEnumerable<StudentManagementSystem.Models.Timetable>
+
+@{
+    ViewData["Title"] = "Timetables";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+<h1>Timetables</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Day)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Room.Name)
+            </td>
+            <td>
+                @*  <a asp-action="Edit" asp-route-id="@item.TimetableId">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.TimetableId">Details</a> |*@
+                <a asp-action="Delete" asp-route-id="@item.TimetableId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

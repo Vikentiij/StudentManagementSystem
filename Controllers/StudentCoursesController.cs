@@ -29,27 +29,6 @@ namespace StudentManagementSystem.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: StudentCourses/Details/5
-        /*[Authorize(Roles = "Admin,Teacher,Student")]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var studentCourse = await _context.StudentCourse
-                .Include(s => s.Course)
-                .Include(s => s.Student)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (studentCourse == null)
-            {
-                return NotFound();
-            }
-
-            return View(studentCourse);
-        }*/
-
         // GET: StudentCourses/Create/5
         [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Create(int? id)
@@ -58,7 +37,9 @@ namespace StudentManagementSystem.Controllers
             var course = _context.Courses.Where(c => c.CourseId == courseId);
             ViewData["CourseId"] = new SelectList(course, "CourseId", "Name");
             
-            var enrolledStudents = _context.StudentCourse.Where(c => c.CourseId == courseId).Select(s => s.StudentId).ToList();
+            //var enrolledStudents = _context.StudentCourse.Where(c => c.CourseId == courseId).Select(s => s.StudentId).ToList();
+            var enrolledStudents = _context.StudentCourse.Select(s => s.StudentId).ToList();
+            ViewData["UserId"] = new SelectList(_context.Students.Include(s => s.UserData).Where(s => !enrolledStudents.Contains(s.Id)), "Id", "FullName");
             ViewData["UserId"] = new SelectList(_context.Students.Include(s => s.UserData).Where(s => !enrolledStudents.Contains(s.Id)), "Id", "FullName");
 
             ViewData["CourseName"] = course.FirstOrDefault().Name;
@@ -84,63 +65,6 @@ namespace StudentManagementSystem.Controllers
             ViewData["UserId"] = new SelectList(_context.Students.Include(s => s.UserData), "StudentId", "FullName", studentCourse.StudentId);
             return View(studentCourse);
         }
-
-        // GET: StudentCourses/Edit/5
-        /*[Authorize(Roles = "Admin,Teacher")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var studentCourse = await _context.StudentCourse.FindAsync(id);
-            if (studentCourse == null)
-            {
-                return NotFound();
-            }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name", studentCourse.CourseId);
-            ViewData["UserId"] = new SelectList(_context.Students.Include(s => s.UserData), "UserId", "FullName", studentCourse.StudentId);
-            return View(studentCourse);
-        }*/
-
-        // POST: StudentCourses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        /*[Authorize(Roles = "Admin,Teacher")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CourseId")] StudentCourse studentCourse)
-        {
-            if (id != studentCourse.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(studentCourse);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentCourseExists(studentCourse.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name", studentCourse.CourseId);
-            ViewData["UserId"] = new SelectList(_context.Students.Include(s => s.UserData), "UserId", "FullName", studentCourse.StudentId);
-            return View(studentCourse);
-        }*/
 
         // GET: StudentCourses/Delete/5
         [Authorize(Roles = "Admin,Teacher")]
