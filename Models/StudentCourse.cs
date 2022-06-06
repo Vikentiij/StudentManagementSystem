@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace StudentManagementSystem.Models
+﻿namespace StudentManagementSystem.Models
 {
     public class StudentCourse
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int StudentId { get; set; }
         public int CourseId { get; set; }
 
         public virtual Student Student { get; set; }
