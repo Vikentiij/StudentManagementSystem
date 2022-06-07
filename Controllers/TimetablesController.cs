@@ -108,13 +108,13 @@ namespace StudentManagementSystem.Controllers
 
                 // Creating corresponding attendance
                 var enrolledStudents = await _context.StudentCourse.Where(s => s.CourseId == timetable.CourseId).ToListAsync();
-                foreach (var student in enrolledStudents)
+                foreach (var studentEnrollment in enrolledStudents)
                 {
                     var studentAttendance = new StudentAttendance()
                     {
                         Attentded = false,
                         EventId = timetable.TimetableId,
-                        StudentId = student.Id                        
+                        StudentId = studentEnrollment.StudentId  
                     };
                     _context.Add(studentAttendance);
                     await _context.SaveChangesAsync();

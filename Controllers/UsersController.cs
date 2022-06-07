@@ -46,12 +46,15 @@ namespace StudentManagementSystem.Controllers
         {
             var users = new List<ApplicationUser>();
 
-            if (User.IsInRole("Teacher"))
+            if (User.IsInRole("Teacher") && !User.IsInRole("Admin"))
             {
                 var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var teacher = _context.Teachers.FirstOrDefault(t => t.UserData.Id == IFUserId);
-                var teacherCourseIds = _context.Courses.Where(c => c.Teacher.Id == teacher.Id).Select(c => c.CourseId).ToList();
-                users = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                if (teacher != null)
+                {
+                    var teacherCourseIds = _context.Courses.Where(c => c.Teacher.Id == teacher.Id).Select(c => c.CourseId).ToList();
+                    users = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                }
             }
             else
             {
