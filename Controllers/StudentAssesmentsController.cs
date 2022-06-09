@@ -37,7 +37,7 @@ namespace StudentManagementSystem.Controllers
 
             var studentAssesment = await _context.StudentAssesment
                 .Include(s => s.Assesment)
-                .Include(s => s.Student)
+                .Include(s => s.Student.UserData)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentAssesment == null)
             {
@@ -143,7 +143,7 @@ namespace StudentManagementSystem.Controllers
 
             var studentAssesment = await _context.StudentAssesment
                 .Include(s => s.Assesment)
-                .Include(s => s.Student)
+                .Include(s => s.Student.UserData)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (studentAssesment == null)
             {
