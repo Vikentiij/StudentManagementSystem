@@ -28,7 +28,8 @@ namespace StudentManagementSystem.Controllers
             _userManager = userManager;
         }
 
-        // GET: EmailUser/5        
+        // GET: EmailUser/5
+          [Authorize(Roles = "Admin,Teacher,Student")]
         public async Task<IActionResult> EmailUser(string id)
         {
             if (id == "")
@@ -58,6 +59,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // POST: EmailUser/5
+        [Authorize(Roles = "Admin,Teacher,Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EmailUser(SendMailDto sendMail)

@@ -20,7 +20,7 @@ namespace StudentManagementSystem.Controllers
 
 
         // GET: StudentCourses
-        [Authorize(Roles = "Admin,Teacher,Student")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.StudentCourse.Include(s => s.Course).Include(s => s.Student.UserData).OrderBy(s => s.Course.Name);

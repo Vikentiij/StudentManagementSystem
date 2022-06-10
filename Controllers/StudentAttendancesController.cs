@@ -20,7 +20,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: StudentAttendances
-        [Authorize(Roles = "Admin,Teacher,Student")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.StudentAttendance.Include(s => s.Event).Include(s => s.Event.Course).Include(s => s.Student.UserData);
@@ -34,7 +34,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: StudentAttendances/Details/5
-        [Authorize(Roles = "Admin,Teacher,Student")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

@@ -41,7 +41,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: Users
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin,Teacher,Student")]
         public async Task<IActionResult> Index()
         {
             var users = new List<ApplicationUser>();
@@ -56,6 +56,23 @@ namespace StudentManagementSystem.Controllers
                     users = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
                 }
             }
+
+            if (User.IsInRole("Student") && !User.IsInRole("Teacher") &&  !User.IsInRole("Admin"))
+            {
+                var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var student = _context.Students.FirstOrDefault(t => t.UserData.Id == IFUserId);
+
+                if (student != null)
+                {
+                    var studentCourseIds = _context.StudentCourse.Where(c => c.Student.Id == student.Id).Select(c => c.CourseId).ToList();
+                    users = await _context.StudentCourse.Where(s => studentCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                }
+
+               // var teachers = _context.Teachers.ToListAsync();
+                // var admins = _context.Users.Where(c=>c.UserRoles.Id == Role.Admin).ToListAsync();
+               // users = users include teachers;
+            }
+
             else
             {
                 users = await _userManager.Users.ToListAsync();

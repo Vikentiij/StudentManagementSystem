@@ -17,7 +17,9 @@ using StudentManagementSystem.Areas.Identity.Data;
 
 namespace StudentManagementSystem.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+
+    [Authorize(Roles = "Admin")]
+  //  [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

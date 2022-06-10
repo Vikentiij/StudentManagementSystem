@@ -18,14 +18,14 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: Rooms
-        [Authorize(Roles = "Admin,Teacher,Student")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Room.ToListAsync());
         }
 
         // GET: Rooms/Details/5
-        [Authorize(Roles = "Admin,Teacher,Student")]
+        [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
