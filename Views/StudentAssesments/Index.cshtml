@@ -5,11 +5,21 @@
     Layout = "~/Views/Shared/DashboardLayout.cshtml";
 }
 
-<h1>Student Assesments</h1>
+<h1>Grades</h1>
 
-<p>
+
+@if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+{
+ <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
+
+
+@if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
+{
+    <br />
+}
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +36,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Student.FullName)
@@ -37,12 +48,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Mark)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+
+            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+            @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
+            {
+                <td>
+                    
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                </td>
+            }
         </tr>
-}
+        }
     </tbody>
 </table>

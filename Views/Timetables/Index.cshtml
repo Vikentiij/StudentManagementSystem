@@ -5,11 +5,21 @@
     Layout = "~/Views/Shared/DashboardLayout.cshtml";
 }
 
-<h1>Timetables</h1>
+<h1>Timetable</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
+@if (this.User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
+{
+    <br />
+}
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +36,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Day)
@@ -37,12 +48,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Room.Name)
             </td>
-            <td>
-                @*  <a asp-action="Edit" asp-route-id="@item.TimetableId">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.TimetableId">Details</a> |*@
-                <a asp-action="Delete" asp-route-id="@item.TimetableId">Delete</a>
-            </td>
+            @if (this.User.IsInRole("Admin")) { 
+                <td>
+                    @*  <a asp-action="Edit" asp-route-id="@item.TimetableId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TimetableId">Details</a> |*@
+                    <a asp-action="Delete" asp-route-id="@item.TimetableId">Delete</a>
+                </td>
+            }
         </tr>
-}
+        }
     </tbody>
 </table>

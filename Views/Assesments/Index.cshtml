@@ -14,7 +14,7 @@
     </p>
 }
 
-@if (this.User.IsInRole("Student"))
+@if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
 { 
     <br />
 }
@@ -58,7 +58,7 @@
                         </td>
                     }
 
-                    @if (this.User.IsInRole("Student"))
+                    @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
                     {
                         <td>
                             <a asp-action="Details" asp-route-id="@item.AssesmentId">Details</a>
