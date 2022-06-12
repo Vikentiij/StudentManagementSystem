@@ -48,8 +48,8 @@
 
             <!-- Heading -->
             @*<div class="sidebar-heading">
-                    Interface
-                </div>*@
+                Interface
+            </div>*@
             @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
             {
 
@@ -174,8 +174,8 @@
                             </link>
                         </div>
                         @*<div class="copyright text-center my-auto">
-                                <span>Copyright &copy; Your Website 2021</span>
-                            </div>*@
+                            <span>Copyright &copy; Your Website 2021</span>
+                        </div>*@
                         <div class="container">
                             &copy; 2022 - StudentManagementSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </div>
@@ -203,21 +203,16 @@
         <!-- Custom scripts for all pages-->
         <script src="~/Theme/js/sb-admin-2.min.js"></script>
 
-        <!-- Page level plugins -->
+        @*<!-- Page level plugins -->
         <script src="~/Theme/vendor/chart.js/Chart.min.js"></script>
-
         <!-- Page level custom scripts -->
         <script src="~/Theme/js/demo/chart-area-demo.js"></script>
-        <script src="~/Theme/js/demo/chart-pie-demo.js"></script>
-
-
-
-
+        <script src="~/Theme/js/demo/chart-pie-demo.js"></script>*@
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-</div>
+    </div>
 
         @await RenderSectionAsync("Scripts", required: false)
 
