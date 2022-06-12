@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +24,27 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher,Student")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Assesment.Include(a => a.Course);
-            return View(await applicationDbContext.ToListAsync());
+            var assesments = new List<Assesment>();
+            var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (User.IsInRole("Admin"))
+            {
+                assesments = await _context.Assesment.Include(a => a.Course).ToListAsync();
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                var teacherId = _context.Teachers.Include(t => t.UserData).FirstOrDefault(t => t.UserData.Id == IFUserId).Id;
+                var courseIds = _context.Courses.Include(c => c.Teacher).Where(c => c.TeacherId == teacherId).Select(c => c.CourseId).ToList();
+                assesments = await _context.Assesment.Include(a => a.Course).Where(a => courseIds.Contains(a.CourseId)).ToListAsync();
+            }
+            else if (User.IsInRole("Student"))
+            {
+                var studentId = _context.Students.Include(s => s.UserData).FirstOrDefault(s => s.UserData.Id == IFUserId).Id;
+                var courseIds = _context.StudentCourse.Include(s => s.Course).Where(s => s.StudentId == studentId).Select(s => s.CourseId).ToList();
+                assesments = await _context.Assesment.Include(a => a.Course).Where(a => courseIds.Contains(a.CourseId)).ToListAsync();
+            }
+
+           return View(assesments);
         }
 
         // GET: Assesments/Details/5
@@ -50,7 +71,20 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name");
+            var courses = new List<Course>();
+
+            if (User.IsInRole("Admin"))
+            {
+                courses = _context.Courses.ToList();
+            }
+            else
+            {
+                var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var teacherId = _context.Teachers.Include(t => t.UserData).FirstOrDefault(t => t.UserData.Id == IFUserId).Id;
+                courses = _context.Courses.Include(c => c.Teacher).Where(c => c.TeacherId == teacherId).ToList();
+            }
+
+            ViewData["CourseId"] = new SelectList(courses, "CourseId", "Name");
             return View();
         }
 
@@ -66,6 +100,20 @@ namespace StudentManagementSystem.Controllers
             {
                 _context.Add(assesment);
                 await _context.SaveChangesAsync();
+
+                var studentIds = _context.StudentCourse.Include(s => s.Student).Where(c => c.CourseId == assesment.CourseId).Select(s => s.StudentId).ToList();
+                foreach (var studentId in studentIds)
+                {
+                    var studentAssesment = new StudentAssesment()
+                    {
+                        AssesmentId = assesment.AssesmentId,
+                        StudentId = studentId
+                    };
+                    _context.Add(studentAssesment);
+                }
+
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name", assesment.CourseId);

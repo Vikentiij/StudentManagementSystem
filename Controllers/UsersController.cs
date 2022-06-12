@@ -55,27 +55,33 @@ namespace StudentManagementSystem.Controllers
                 var teacher = _context.Teachers.FirstOrDefault(t => t.UserData.Id == IFUserId);
                 if (teacher != null)
                 {
+                    var teachers = _context.Teachers.Select(t => t.UserData).ToList();
+                    users.AddRange(teachers);
+
                     var teacherCourseIds = _context.Courses.Where(c => c.Teacher.Id == teacher.Id).Select(c => c.CourseId).ToList();
-                    users = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                    var teacherStudents = await _context.StudentCourse.Where(s => teacherCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                    users.AddRange(teacherStudents);
                 }
             }
-
-            if (User.IsInRole("Student") && !User.IsInRole("Teacher") &&  !User.IsInRole("Admin"))
+            else if (User.IsInRole("Student") && !User.IsInRole("Teacher") &&  !User.IsInRole("Admin"))
             {
                 var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var student = _context.Students.FirstOrDefault(t => t.UserData.Id == IFUserId);
 
                 if (student != null)
                 {
+                    var teachers = _context.Teachers.Select(t => t.UserData).ToList();
+                    users.AddRange(teachers);
+
                     var studentCourseIds = _context.StudentCourse.Where(c => c.Student.Id == student.Id).Select(c => c.CourseId).ToList();
-                    users = await _context.StudentCourse.Where(s => studentCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                    var students = await _context.StudentCourse.Where(s => studentCourseIds.Contains(s.CourseId)).Select(s => s.Student.UserData).Distinct().ToListAsync();
+                    users.AddRange(students);
                 }
 
                // var teachers = _context.Teachers.ToListAsync();
                 // var admins = _context.Users.Where(c=>c.UserRoles.Id == Role.Admin).ToListAsync();
                // users = users include teachers;
             }
-
             else
             {
                 users = await _userManager.Users.ToListAsync();

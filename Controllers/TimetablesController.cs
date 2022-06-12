@@ -39,8 +39,9 @@ namespace StudentManagementSystem.Controllers
             }
             else if (this.User.IsInRole("Student"))
             {
-                // TODO: filter by Student courses
-                timetables = await allTimetables.ToListAsync();
+                var studentId = _context.Students.FirstOrDefault(t => t.UserData.Id == IFUserId).Id;
+                var studentCourse = _context.StudentCourse.FirstOrDefault(s => s.StudentId == studentId);
+                timetables = await allTimetables.Where(t => t.Course.CourseId == studentCourse.CourseId).ToListAsync();
             }
 
             return View(timetables);
