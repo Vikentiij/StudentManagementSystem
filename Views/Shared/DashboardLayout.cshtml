@@ -50,7 +50,69 @@
             @*<div class="sidebar-heading">
             Interface
         </div>*@
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+
+            @if (this.User.IsInRole("Admin"))
+            {
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Home/Index">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Users/Index">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Rooms/Index">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span>Rooms</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Courses/Index">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                        <span>Courses</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/StudentCourses/Index">
+                        <i class="fa fa-list" aria-hidden="true"></i>
+                        <span>Enrolment</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Timetables/Index">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <span>Timetable</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/StudentAttendances/Index">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <span>Student Attendances</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Assesments/Index">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        <span>Assesments</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/StudentAssesments/Index">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        <span>Grades</span>
+                    </a>
+                </li>
+            }
+
+
+
+
+            @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
             {
 
                 <li class="nav-item active">
@@ -62,17 +124,17 @@
             }
 
 
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+            @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
             {
 
                 <li class="nav-item active">
                     <a class="nav-link" href="~/Users/Index">
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
-                        <span>Users</span>
+                        <span>Members</span>
                     </a>
                 </li>
             }
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+            @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
             {
 
 
@@ -84,7 +146,7 @@
                 </li>
             }
 
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+            @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
             {
 
                 <li class="nav-item active">
@@ -94,17 +156,8 @@
                     </a>
                 </li>
             }
-            @if (this.User.IsInRole("Admin"))
-            {
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="~/StudentCourses/Index">
-                        <i class="fa fa-list" aria-hidden="true"></i>
-                        <span>Enrolment</span>
-                    </a>
-                </li>
-            }
-            @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+           
+            @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
             {
 
                 <li class="nav-item active">
@@ -114,7 +167,7 @@
                     </a>
                 </li>
 
-                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher"))
+                @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
                 {
                     <li class="nav-item active">
                         <a class="nav-link" href="~/StudentAttendances/Index">
@@ -123,7 +176,7 @@
                         </a>
                     </li>
                 }
-                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Teacher") || this.User.IsInRole("Student"))
+                @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
                 {
                     <li class="nav-item active">
                         <a class="nav-link" href="~/Assesments/Index">
@@ -134,11 +187,11 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="~/StudentAssesments/Index">
                             <i class="fa fa-tasks" aria-hidden="true"></i>
-                            <span>Student Assesment</span>
+                            <span>Grades</span>
                         </a>
                     </li>
-                    }
                 }
+            }
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

@@ -4,12 +4,20 @@
     ViewData["Title"] = "User Accounts";
     Layout = "~/Views/Shared/DashboardLayout.cshtml";
 }
+@if (this.User.IsInRole("Admin"))
+{
+    <h1>User Accounts</h1>
 
-<h1>User Accounts</h1>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
+{
+    <h1>Members</h1>
+   
+}
 
 <br />
 
@@ -37,23 +45,45 @@
                 <tbody>
                     @foreach (var item in Model.Where(m => m.Role == role))
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FirstName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+
+                        @if (this.User.IsInRole("Admin"))
+                        {
                             <td>
                                 <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
                                 <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
                                 <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a> |
                                 <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
                             </td>
-                        </tr>
+                        }
+                        @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
+                        {
+                            <td>
+
+                                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                            </td>
+                        }
+
+                        @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
+                        {
+                            <td>
+
+                               
+                                <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                            </td>
+                        }
+
+                    </tr>
                     }
                 </tbody>
             </table>
