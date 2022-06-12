@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Areas.Identity.Data;
 using StudentManagementSystem.Data;
 using StudentManagementSystem.Models;
-using StudentManagementSystem.Utils;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,15 +17,19 @@ namespace StudentManagementSystem.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailSender _emailSender;
 
-        public EmailController(ApplicationDbContext context,
+        public EmailController(
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IEmailSender emailSender
             )
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: EmailUser/5
@@ -62,14 +66,14 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher,Student")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EmailUser(SendMailDto sendMail)
+        public async Task<IActionResult> EmailUserAsync(SendMailDto sendMail)
         {
             if (ModelState.IsValid)
             {
                 // Send email to the user
                 var subject = sendMail.Subject;
                 var body = sendMail.Message;
-                Email.Send(sendMail.RecipientEmail, subject, body);
+                await _emailSender.SendEmailAsync(sendMail.RecipientEmail, subject, body);
 
                 return RedirectToAction("Index", "Users");
             }
@@ -120,14 +124,14 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EmailCourse(SendMailDto sendMail)
+        public async Task<IActionResult> EmailCourseAsync(SendMailDto sendMail)
         {
             if (ModelState.IsValid)
             {
                 // Send email to the user
                 var subject = sendMail.Subject;
                 var body = sendMail.Message;
-                Email.Send(sendMail.RecipientEmail, subject, body);
+                await _emailSender.SendEmailAsync(sendMail.RecipientEmail, subject, body);
 
                 return RedirectToAction("Index", "Users");
             }

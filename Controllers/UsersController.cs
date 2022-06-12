@@ -4,12 +4,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Areas.Identity.Data;
 using StudentManagementSystem.Data;
 using StudentManagementSystem.Models;
-using StudentManagementSystem.Utils;
 using StudentManagementSystem.ViewModels;
 
 namespace StudentManagementSystem.Controllers
@@ -19,16 +19,19 @@ namespace StudentManagementSystem.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailSender _emailSender;
 
         public UsersController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IEmailSender emailSender
             )
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         private async Task<Role> GetUserRole(ApplicationUser user)
@@ -171,7 +174,7 @@ namespace StudentManagementSystem.Controllers
                 var body = $"<h3>Welcome to Student Management System, {user.FirstName}!</h3>\n" +
                 $"<p>{role} account has been created for you</p>" +
                 $"<p>Your temporary password is <code>{unencryptedPassword}</code> please change it when you first log in!</p>";
-                Email.Send(user.Email, subject, body);
+                await _emailSender.SendEmailAsync(user.Email, subject, body);
 
                 return RedirectToAction(nameof(Index));
             }

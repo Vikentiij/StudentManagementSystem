@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using StudentManagementSystem.Models;
-using StudentManagementSystem.Utils;
+using StudentManagementSystem.Services;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace StudentManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly EmailSender _emailSender;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IEmailSender emailSender)
         {
             _logger = logger;
+            _emailSender = (EmailSender)emailSender;
         }
 
         public IActionResult Index()
@@ -44,7 +48,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult ContactUs(SendMailDto sendMailDto)
+        public async Task<IActionResult> ContactUsAsync(SendMailDto sendMailDto)
         {
             if (!ModelState.IsValid) return View();
 
@@ -52,7 +56,7 @@ namespace StudentManagementSystem.Controllers
             {
                 var body = $"Name : {sendMailDto.Name} <br/> Message : {sendMailDto.Message}";
 
-                Email.Send("testmvcemailproject@gmail.com", sendMailDto.Subject, body);
+                await _emailSender.ContactAdminAsync(sendMailDto.Subject, body);
 
                 ViewBag.Message = "Mail Send";
 
