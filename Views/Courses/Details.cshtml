@@ -50,22 +50,33 @@
         <tbody>
             @foreach (var item in Model.Students)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.CourseId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (this.User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.CourseId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+
+@if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+

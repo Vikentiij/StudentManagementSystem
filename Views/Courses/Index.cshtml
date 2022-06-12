@@ -58,20 +58,22 @@
                     </td>
                 }
 
-                @if (this.User.IsInRole("Student"))
+                @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
+                        <a asp-controller="Email" asp-action="EmailCourse" asp-route-id="@item.CourseId">Send Emails</a>
+                    </td>
+                }
+
+                @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
                 {
                     <td>
                         <a asp-action="Details" asp-route-id="@item.CourseId">Details</a>
                     </td>
                 }
 
-                @if (this.User.IsInRole("Teacher"))
-                {
-            <td>
-                <a asp-action="Details" asp-route-id="@item.CourseId">Details</a> |
-                <a asp-controller="Email" asp-action="EmailCourse" asp-route-id="@item.CourseId">Send Emails</a>
-            </td>
-                }
+
 
 
             </tr>
