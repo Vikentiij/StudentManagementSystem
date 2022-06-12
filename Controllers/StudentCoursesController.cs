@@ -20,7 +20,7 @@ namespace StudentManagementSystem.Controllers
 
 
         // GET: StudentCourses
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.StudentCourse.Include(s => s.Course).Include(s => s.Student.UserData).OrderBy(s => s.Course.Name);
@@ -30,7 +30,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: StudentCourses/Create/5
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(int? id)
         {
             var courseId = id;
@@ -50,7 +50,7 @@ namespace StudentManagementSystem.Controllers
         // POST: StudentCourses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StudentId,CourseId")] StudentCourse studentCourse)
@@ -67,7 +67,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // GET: StudentCourses/Delete/5
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -88,7 +88,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         // POST: StudentCourses/Delete/5
-        [Authorize(Roles = "Admin,Teacher")]
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
