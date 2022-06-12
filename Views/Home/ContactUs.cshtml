@@ -1,29 +1,38 @@
 ﻿@model SendMailDto
 @{
-    ViewData["Title"] = "Contac tUs";
+    ViewData["Title"] = "Contact Us";
 }
 
-<div class="container">
-    <h1>@ViewBag.Message</h1>
-
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="@Model.Name"></label>
-            <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Enter your name">
-            <span class="text-danger" asp-validation-for="@Model.Name"></span>
+<div class="container-fluid">
+    <div class="row justify-content-center pt-4 pb-3 mb-4" style="background-color: #6f26d4;">
+        <div class="col-md-6 text-center" mb-5>
+            <h4 style="font-size: xx-large; color: white;">@ViewData["Title"]</h4>
         </div>
-        <div class="form-group">
-            <label asp-for="@Model.Subject"></label>
-            <input type="text" asp-for="@Model.Subject" class="form-control" placeholder="Enter your subject">
-            <span class="text-danger" asp-validation-for="@Model.Subject"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Message"></label>
-            <textarea class="form-control" asp-for="@Model.Message" placeholder="Enter your message"></textarea>
-            <span class="text-danger" asp-validation-for="@Model.Message"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Mail</button>
+    </div>
 
-    </form>
+    <h3>@ViewBag.Message</h3>
 
-</div>
+    <div class="row row justify-content-center">
+        <div class="col-md-6 mt-3 mb-5">
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="@Model.Name"></label>
+                        <input type="text" asp-for="@Model.Name" class="form-control" placeholder="Enter your name">
+                        <span class="text-danger" asp-validation-for="@Model.Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Subject"></label>
+                        <input type="text" asp-for="@Model.Subject" class="form-control" placeholder="Enter your subject">
+                        <span class="text-danger" asp-validation-for="@Model.Subject"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Message"></label>
+                        <textarea rows="6" class="form-control" asp-for="@Model.Message" placeholder="Enter your message"></textarea>
+                        <span class="text-danger" asp-validation-for="@Model.Message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Mail</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
