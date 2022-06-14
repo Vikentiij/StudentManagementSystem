@@ -16,12 +16,12 @@
 @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
 {
     <h1>Members</h1>
-   
+
 }
 
 <br />
 
-@foreach (Role role in (Role[])Enum.GetValues(typeof(Role)))
+@*@foreach (Role role in (Role[])Enum.GetValues(typeof(Role)))
 {
     if (Model.Where(m => m.Role == role).Count() > 0)
     {
@@ -45,49 +45,148 @@
                 <tbody>
                     @foreach (var item in Model.Where(m => m.Role == role))
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-
-                        @if (this.User.IsInRole("Admin"))
-                        {
+                        <tr>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a> |
-                                <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                @Html.DisplayFor(modelItem => item.FirstName)
                             </td>
-                        }
-                        @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
-                        {
                             <td>
-
-                                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                                <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                @Html.DisplayFor(modelItem => item.LastName)
                             </td>
-                        }
-
-                        @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
-                        {
                             <td>
-
-                               
-                                <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                @Html.DisplayFor(modelItem => item.Email)
                             </td>
-                        }
 
-                    </tr>
+                            @if (this.User.IsInRole("Admin"))
+                            {
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a> |
+                                    <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                </td>
+                            }
+                            @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
+                            {
+                                <td>
+
+                                    <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                    <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                </td>
+                            }
+
+                            @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
+                            {
+                                <td>
+
+
+                                    <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                </td>
+                            }
+
+                        </tr>
                     }
                 </tbody>
             </table>
         }
         <br />
     }
-}
+}*@
+
+
+
+<div class="card shadow mb-4">
+    <!-- Card Header - Accordion -->
+    <!-- Card Content - Collapse -->
+
+    @foreach (Role role in (Role[])Enum.GetValues(typeof(Role)))
+    {
+        if (Model.Where(m => m.Role == role).Count() > 0)
+        {
+
+            <a class="d-block card-header py-3" data-toggle="collapse" data-target="#@role" role="button" aria-expanded="true" aria-controls="collapseExample">
+                <h4 class="m-0 font-weight-bold text-primary">@(role)s</h4>
+            </a>
+
+            { <div class="collapse show" id="@role" style="">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LastName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(m => m.Role == role))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FirstName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LastName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+
+                                    @if (this.User.IsInRole("Admin"))
+                                    {
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a> |
+                                            <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                        </td>
+                                    }
+                                    @if (this.User.IsInRole("Teacher") && !this.User.IsInRole("Admin"))
+                                    {
+                                        <td>
+
+                                            <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                                            <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                        </td>
+                                    }
+
+                                    @if (this.User.IsInRole("Student") && !this.User.IsInRole("Admin"))
+                                    {
+                                        <td>
+
+
+                                            <a asp-controller="Email" asp-action="EmailUser" asp-route-id="@item.UserId">Send Email</a>
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            <br />
+        }
+    }
+</div>
+
+<!-- <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    <i class="fas fa-fw fa-cog"></i>
+    <span>Components</span>
+</a> -->
+<!-- <p>
+
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Button with data-target
+    </button>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+    </div>
+</div> -->
