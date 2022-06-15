@@ -24,17 +24,14 @@ namespace StudentManagementSystem.Controllers
             var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _context.Students.FirstOrDefault(t => t.UserData.Id == IFUserId);
 
-            var StudentCourseId = _context.StudentCourse.Where(c => c.Student.Id == user.Id).Select(c => c.CourseId).ToList();
-            var AssesmentId = _context.StudentAssesment.Where(c => c.Student.Id == user.Id).Select(c => c.AssesmentId).ToList();
-            var CourseCount = _context.StudentCourse.Where(s => StudentCourseId.Contains(s.Id)).Select(s => s.Student).Distinct().Count();
-            
+            var assesmentCount = _context.StudentAssesment.Where(c => c.Student.Id == user.Id).Select(c => c.AssesmentId).Count();
+            var courseCount = _context.StudentCourse.Where(c => c.Student.Id == user.Id).Select(c => c.CourseId).Distinct().Count();
 
             var model = new StudentDashboardViewModel()
             {
-                CourseCount = CourseCount,
-                AssesmentCount = AssesmentId.Count()
+                CourseCount = courseCount,
+                AssesmentCount = assesmentCount
             };
-
 
             return View(model);
         }

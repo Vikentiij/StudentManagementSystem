@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,14 +24,33 @@ namespace StudentManagementSystem.Controllers
         [Authorize(Roles = "Admin,Teacher")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.StudentAttendance.Include(s => s.Event).Include(s => s.Event.Course).Include(s => s.Student.UserData);
-            var timetableDays = await _context.Timetable.Select(t => t.Day).OrderBy(t => t.Day).Distinct().ToListAsync();
+            var studentAssesments = new List<StudentAssesment>();
+            var IFUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var timetableDays = new List<System.DateTime>();
+            var courseList = new List<Course>();
+            var studentAttendance = new List<StudentAttendance>();
+
+            if (User.IsInRole("Admin"))
+            {
+                timetableDays = await _context.Timetable.Select(t => t.Day).OrderBy(t => t.Day).Distinct().ToListAsync();
+                courseList = await _context.Courses.ToListAsync();
+                studentAttendance = await _context.StudentAttendance.Include(s => s.Event).Include(s => s.Event.Course).Include(s => s.Student.UserData).ToListAsync();
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                var teacherId = _context.Teachers.Include(t => t.UserData).FirstOrDefault(t => t.UserData.Id == IFUserId).Id;
+                var teacherCourses = _context.Courses.Include(c => c.Teacher).Where(c => c.TeacherId == teacherId);
+                var courseIds = await teacherCourses.Select(c => c.CourseId).ToListAsync();
+
+                courseList = await teacherCourses.ToListAsync();
+                studentAttendance = await _context.StudentAttendance.Include(s => s.Event).Include(s => s.Event.Course).Include(s => s.Student.UserData).Where(s => courseIds.Contains(s.Event.CourseId)).ToListAsync();
+                timetableDays = await _context.Timetable.Where(t => courseIds.Contains(t.CourseId)).Select(t => t.Day).OrderBy(t => t.Day).Distinct().ToListAsync();
+            }
+
             ViewData["TimetableDays"] = timetableDays;
-
-            var courseList = await _context.Courses.ToListAsync();
             ViewData["courseList"] = courseList;
-
-            return View(await applicationDbContext.ToListAsync());
+            return View(studentAttendance);
         }
 
         // GET: StudentAttendances/Details/5

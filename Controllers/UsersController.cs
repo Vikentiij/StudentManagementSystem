@@ -290,6 +290,14 @@ namespace StudentManagementSystem.Controllers
                 return NotFound();
             }
 
+            var userRole = await GetUserRole(user);
+
+            if (userRole == Role.Student)
+            {
+                var student = _context.Students.Include(s => s.UserData).FirstOrDefault(s => s.UserData.Id == user.Id);
+                _context.Students.Remove(student);
+            }
+
             await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));
         }

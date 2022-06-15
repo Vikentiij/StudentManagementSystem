@@ -40,8 +40,8 @@ namespace StudentManagementSystem.Controllers
             else if (User.IsInRole("Student"))
             {
                 var studentId = _context.Students.Include(s => s.UserData).FirstOrDefault(s => s.UserData.Id == IFUserId).Id;
-                var courseIds = _context.StudentCourse.Include(s => s.Course).Where(s => s.StudentId == studentId).Select(s => s.CourseId).ToList();
-                assesments = await _context.Assesment.Include(a => a.Course).Where(a => courseIds.Contains(a.CourseId)).ToListAsync();
+                var AssesmentIds = await _context.StudentAssesment.Where(c => c.Student.Id == studentId).Select(c => c.AssesmentId).ToListAsync();
+                assesments = await _context.Assesment.Include(a => a.Course).Where(a => AssesmentIds.Contains(a.AssesmentId)).ToListAsync();
             }
 
            return View(assesments);
