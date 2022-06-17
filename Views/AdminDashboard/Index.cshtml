@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <h1>Admin Dashboard</h1>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -54,7 +54,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <p class="card-text">
-                                Courses: @Model.CoursesCount
+                                Courses: @Model.Courses.Count
                             </p>
                             <a class="btn btn-primary" href="~/Courses/Index" id="Userlink">
                                 <span>View Courses</span>
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -93,24 +93,72 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-12">
-            <div class="card-header py-3">
-                <!-- Card Header - Dropdown -->
+        <div class="col-xl-8 col-lg-7">
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Courses</h6>
+                </div>
+                <div class="card-body">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <h4 class="small font-weight-bold">
+                            @course.Name <span class="float-right">@course.Students.Count</span>
+                        </h4>
+                        <div class="progress mb-4">
+                            <div class="progress-bar" role="progressbar" style="width: @(course.Students.Count * 100 / Model.StudentsCount)%"
+                                 aria-valuenow="@course.Students.Count" aria-valuemin="0" aria-valuemax="@Model.StudentsCount"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xl-4 col-lg-5">
+
+            <div class="card shadow mb-4">
+
+
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Users</h6>
                 </div>
+
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-pie pt-4">
+                    <div class="chart-pie pt-4 pb-2">
                         <canvas id="myPieChart"></canvas>
                     </div>
                     @*<hr>
                         Hello to configer this chart go to this directory. Also let me know if you do cause i wanna lerne more about it :)
                         <code>/js/demo/chart-pie-demo.js</code> file.*@
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-primary"></i> Students
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-success"></i> Teachers
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-info"></i> Admins
+                        </span>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
 </div>
 <script src="~/Theme/vendor/chart.js/Chart.min.js"></script>
 <script>

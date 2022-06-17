@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Areas.Identity.Data;
 using StudentManagementSystem.Data;
 using StudentManagementSystem.ViewModels;
@@ -28,7 +29,13 @@ namespace StudentManagementSystem.Controllers
             // To not deal with Identity Framework roles, get the adming count by sybsctracting teachers and students from total user count
             var adminsCount = _userManager.Users.Count() - teachersCount - studentsCount;
 
-            var coursesCount = _context.Courses.Count();
+            var courses = _context.Courses.Include(c => c.Students).ToList();
+            foreach (var course in courses)
+            {
+                var students = _context.StudentCourse.Where(s => s.CourseId == course.CourseId).Select(s => s.Student).ToList();
+                course.Students = students;
+            }
+
             var roomsCount = _context.Room.Count();
 
             var model = new AdminDashboardViewModel()
@@ -36,8 +43,8 @@ namespace StudentManagementSystem.Controllers
                 AdminsCount = adminsCount,
                 TeachersCount = teachersCount,
                 StudentsCount = studentsCount,
-                CoursesCount = coursesCount,
                 RoomsCount = roomsCount,
+                Courses = courses,
             };
             
             return View(model);
