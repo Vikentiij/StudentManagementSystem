@@ -11,27 +11,40 @@
     <h4>Timetable</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Day)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Day)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Course)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Course.CourseId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Room)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Room.RoomId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Room.Name)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.TimetableId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@if (this.User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.TimetableId">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@Model.TimetableId">Delete</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+    }
+@if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
+{
+    <div>   
+        <a asp-action="Index">Back to List</a>
+    </div>
+    }
+
+

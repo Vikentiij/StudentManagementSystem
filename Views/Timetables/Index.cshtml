@@ -6,21 +6,15 @@
 }
 
 <h1>Timetable</h1>
+<br />
 
 
-
-@if (this.User.IsInRole("Admin"))
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
 
 @if ((this.User.IsInRole("Teacher") || this.User.IsInRole("Student")) && !this.User.IsInRole("Admin"))
 {
     <br />
 }
-<table class="table">
+<!--<table class="table">
     <thead>
         <tr>
             <th>
@@ -59,13 +53,24 @@
             </tr>
         }
     </tbody>
-</table>
+</table> -->
+
+
+
+@if (this.User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+
 
 
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.1/fullcalendar.min.css" />
-<h2>Calendar</h2>
+
 <div id="calendar">
 
 </div>
@@ -83,7 +88,7 @@
             };
 
             $.ajax(settings).done(function (response) {
-                 $('#calendar').fullCalendar({
+                $('#calendar').fullCalendar({
 
                     header: {
                         left: 'prev,next today',
@@ -98,7 +103,7 @@
             });
 
 
-            
+
 
         })
     </script>
