@@ -123,6 +123,9 @@ namespace StudentManagementSystem.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
                 Role = await GetUserRole(user)
             };
 
@@ -150,6 +153,9 @@ namespace StudentManagementSystem.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
@@ -209,6 +215,9 @@ namespace StudentManagementSystem.Controllers
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                DateOfBirth = user.DateOfBirth,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
                 Role = await GetUserRole(user)
             };
 
@@ -241,6 +250,9 @@ namespace StudentManagementSystem.Controllers
                 userToUpdate.UserName = newUserData.Email;
                 userToUpdate.FirstName = newUserData.FirstName;
                 userToUpdate.LastName = newUserData.LastName;
+                userToUpdate.DateOfBirth = newUserData.DateOfBirth;
+                userToUpdate.PhoneNumber = newUserData.PhoneNumber;
+                userToUpdate.Address = newUserData.Address;
 
                 await _userManager.UpdateAsync(userToUpdate);
 
