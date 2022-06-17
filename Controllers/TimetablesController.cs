@@ -47,6 +47,7 @@ namespace StudentManagementSystem.Controllers
             return View(timetables);
         }
 
+
         // GET: Timetables/Details/5
         [Authorize(Roles = "Admin,Teacher,Student")]
         public async Task<IActionResult> Details(int? id)
