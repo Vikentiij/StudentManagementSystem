@@ -27,7 +27,7 @@ namespace StudentManagementSystem.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            if (!toEmail.Contains("@gmail.com") && !toEmail.Contains("@techtorium.ac.nz"))
+            if (!toEmail.Contains("@gmail.com") && !toEmail.Contains("@techtorium.ac.nz") && !toEmail.Contains("@outlook.com"))
             {
                 _logger.LogInformation($"Skipping non-existing email {toEmail}");
                 return;

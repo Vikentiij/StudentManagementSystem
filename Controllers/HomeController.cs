@@ -58,7 +58,7 @@ namespace StudentManagementSystem.Controllers
 
                 await _emailSender.ContactAdminAsync(sendMailDto.Subject, body);
 
-                ViewBag.Message = "Mail Send";
+                ViewBag.Message = "Message Sent";
 
                 // now i need to create the from 
                 ModelState.Clear();
