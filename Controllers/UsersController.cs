@@ -310,6 +310,13 @@ namespace StudentManagementSystem.Controllers
                 _context.Students.Remove(student);
             }
 
+            if (userRole == Role.Teacher)
+            {
+                var teacher = _context.Teachers.Include(s => s.UserData).FirstOrDefault(s => s.UserData.Id == user.Id);
+                _context.Teachers.Remove(teacher);
+            }
+
+
             await _userManager.DeleteAsync(user);
             return RedirectToAction(nameof(Index));
         }
